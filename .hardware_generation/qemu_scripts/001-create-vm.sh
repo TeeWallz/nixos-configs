@@ -2,7 +2,7 @@
 
 NIXOS_DISK_DIR="~/quemu/nixos"
 NIXOS_URL="https://channels.nixos.org/nixos-22.11/latest-nixos-plasma5-x86_64-linux.iso"
-DISK_NAME="nixos_disk.qcow2"
+DISK_NAME="nixos_immutable_disk.qcow2"
 ISO_PATH="/tmp/nixos.iso"
 
 mkdir -p $NIXOS_DISK_DIR
