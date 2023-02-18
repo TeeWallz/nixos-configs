@@ -55,6 +55,7 @@
     spice-vdagent
     tmux
     tmuxp
+    #code
   ];
 
   # Enable home-manager and git

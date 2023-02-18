@@ -17,6 +17,51 @@
 https://search.nixos.org/packages
 
 
+# Flakes
+
+## OS
+### Apply flake on fresh machine
+```bash
+# Bootstrap git
+nix shell nixpkgs#git
+
+# Install nixos
+nixos-install --flake .#hostname
+```
+
+### Apply flake on set-up machine
+```bash
+sudo nixos-rebuild switch --flake .#hostname
+```
+
+## Home config/packages
+```bash
+home-manager switch --flake .#username@hostname
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# NIXOS
+
 # Applying configs
 ## Testing
 
@@ -85,4 +130,7 @@ which is equivalent to **nix-channel --update nixos; nixos-rebuild switch.**
 system.autoUpgrade.enable = true;
 system.autoUpgrade.allowReboot = true;
 ```
+
+
+
 

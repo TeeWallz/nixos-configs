@@ -161,6 +161,19 @@
   services.qemuGuest.enable = true;
   services.xserver.videoDrivers = [ "qxl" ];
 
+
+
+environment.systemPackages = with pkgs; [
+  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    wget
+    git
+    spice-vdagent
+    tmux
+    tmuxp
+    git
+    vscode
+  ];
+
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "22.11";
 }
