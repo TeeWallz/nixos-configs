@@ -140,7 +140,7 @@
       initialPassword = "";
       isNormalUser = true;
       openssh.authorizedKeys.keys = [
-          ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC9otIsoXI3dfWD+i4ZhtJgytObj2iQBm5UPBLXPyJpKdHgPRAN1rJ1DqhrZcXhaYWd4nDDbX05yIlEEDblLvHje/B47dro4i9cFJDtNjUo1B6Wu2a/lQXfH1nzRzwBqnOJP4QPu76S269w6yTc7KAAS8JR4bKkEUEy2zcVEeByAI1tAfUFCS+3isyJ+aUjd9V/6UJXKpCN8HLmI6nQ8Os6yYsryPls/2FB8z3VOodmzsvA41SskZr0FZlKbDPJvu0mZ6ut6ATjZroOFxGZTYNyX9jw4odns/8hv0QRbXuvN73jW89tOTVSC4RVr5aotHP7CN8/EnuXHdPa/aDHMM3f tom@xubuntu-vm
+          "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC9otIsoXI3dfWD+i4ZhtJgytObj2iQBm5UPBLXPyJpKdHgPRAN1rJ1DqhrZcXhaYWd4nDDbX05yIlEEDblLvHje/B47dro4i9cFJDtNjUo1B6Wu2a/lQXfH1nzRzwBqnOJP4QPu76S269w6yTc7KAAS8JR4bKkEUEy2zcVEeByAI1tAfUFCS+3isyJ+aUjd9V/6UJXKpCN8HLmI6nQ8Os6yYsryPls/2FB8z3VOodmzsvA41SskZr0FZlKbDPJvu0mZ6ut6ATjZroOFxGZTYNyX9jw4odns/8hv0QRbXuvN73jW89tOTVSC4RVr5aotHP7CN8/EnuXHdPa/aDHMM3f tom@xubuntu-vm"
       ];
       # TODO: Be sure to add any other groups you need (such as networkmanager, audio, docker, etc)
       extraGroups = [ "wheel", "docker", "networkmanager" ];
