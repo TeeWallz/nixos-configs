@@ -16,18 +16,25 @@ below.
 
 ## Installing
 *I do not have a custom iso yet, so you'll need two USBs. One for the NixOS iso, and one for these files. You'll have to mount the second stick manually.*
-1. 
+1. Download this repo
+```sh
+curl p-L https://github.com/TeeWallz/nixos-configs/archive/refs/heads/main.zip  -o output.txt 
+/tmp/deploy.zip
+unzip deploy.zip
+cd /tmp/nixos-configs-main
+```
 2. Boot into the nixos environment and find the uuid or id of the disk you want to install to. Do not use `/dev/sda` but `/dev/disk/by-...`, use `lsblk` and `blkid`.
 3. export it to the environment as `rootdisk`:
 ```sh
 # whole disk please, no partition
-export rootdisk="/dev/disk/by-id/ata-Some-Storage-Device"
+# export rootdisk="/dev/disk/by-id/ata-Some-Storage-Device"
+export rootdisk=$(ls /dev/disk-by-id/* | head -n 1)
 ```
-4. [use keyfile](#use-keyfile) and/or [configure passphrase](#configure-passphrase) usage (see sections below)
+1. [use keyfile](#use-keyfile) and/or [configure passphrase](#configure-passphrase) usage (see sections below)
 ```sh
 export passphrase="passphrasehere"
 ```
-5. run it:
+1. run it:
 ```sh
 bash /path/to/automated_install.sh
 ```

@@ -20,11 +20,21 @@ passphrase="${passphrase:-NONE}"
 # exit on error
 set -e
 # abort if no root disk is set
-if [[ "${rootdisk}" != "NONE" ]]; echo "please set rootdisk with: \`rootdisk=/dev/disk/by-id/disk_id_for_root_device $0\`"; exit 1; fi
+if [[ "${rootdisk}" != "NONE" ]]; then
+  echo "please set rootdisk with: \`rootdisk=/dev/disk/by-id/disk_id_for_root_device $0\`"
+  exit 1
+fi
 
-if [[ "${use_passphrase}" == "no" ]] && [[ "${keyfile}" == "NONE" ]]; echo "please use at least one of the following: keyfile, password."; exit 2; fi
+if [[ "${use_passphrase}" == "no" ]] && [[ "${keyfile}" == "NONE" ]]; then
+  echo "please use at least one of the following: keyfile, password."
+  exit 2
+fi
 
-if [[ "${use_passphrase}" == "no" ]]; echo "using a passprase is highly recommended, since keyfiles can get corrupt or lost."; fi
+
+if [[ "${use_passphrase}" == "no" ]]; then
+  echo "using a passphrase is highly recommended, since keyfiles can get corrupt or lost."
+fi
+
 
 export rootdisk keyfile keysize use_passphrase;
 # absolute location for this script (directory the files are in)
