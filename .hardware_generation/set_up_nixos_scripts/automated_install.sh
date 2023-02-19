@@ -20,7 +20,7 @@ passphrase="${passphrase:-NONE}"
 # exit on error
 set -e
 # abort if no root disk is set
-if [[ "${rootdisk}" != "NONE" ]]; then
+if [[ "${rootdisk}" == "NONE" ]]; then
   echo "please set rootdisk with: \`rootdisk=/dev/disk/by-id/disk_id_for_root_device $0\`"
   exit 1
 fi
