@@ -4,7 +4,7 @@ set -e
 # Install zfs in the live environment
 # TODO: do this in the custom bootable iso
 echo 'Install zfs in the live environment'
-sed -i '' -e 's/^}/  boot.supportedFilesystems = ["zfs"];\n}/' /etc/nixos/configuration.nix;
+sed -i -e 's/^}/  boot.supportedFilesystems = ["zfs"];\n}/' /etc/nixos/configuration.nix;
 nixos-rebuild switch
 
 

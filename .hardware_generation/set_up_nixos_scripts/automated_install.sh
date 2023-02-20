@@ -63,13 +63,13 @@ then
   sed -i'' -e "s!/path/to/device!${device}!" /mnt/etc/nixos/lukskeyfile.nix;
   
   # replace `/path/to/keyfile` with actual keyfile
-  sed -i '' -e "s!/path/to/keyfile!${keyfile}!" /mnt/etc/nixos/lukskeyfile.nix;
+  sed -i -e "s!/path/to/keyfile!${keyfile}!" /mnt/etc/nixos/lukskeyfile.nix;
 
   # replace placeholder keysize with actual keysize
-  sed -i '' -e "s!keyfile_size_here!${keysize}!"             /mnt/etc/nixos/lukskeyfile.nix;
+  sed -i -e "s!keyfile_size_here!${keysize}!"             /mnt/etc/nixos/lukskeyfile.nix;
   
   # add ./lukskeyfile.nix to the imports of configuration.nix
-  sed -i '' -e "s!\(./hardware-configuration.nix\)!\1\n      ./lukskeyfile.nix!" /mnt/etc/nixos/configuration.nix
+  sed -i -e "s!\(./hardware-configuration.nix\)!\1\n      ./lukskeyfile.nix!" /mnt/etc/nixos/configuration.nix
 fi
 
 # add the zfs.nix
@@ -77,10 +77,10 @@ cp "${scriptlocation}/zfs.nix" /mnt/etc/nixos/
 
 # generate and insert a unique hostid
 hostid="$(head -c4 /dev/urandom | od -A none -t x4)"
-sed -i '' -e "s!cafebabe!${hostid}!"                                   /mnt/etc/nixos/zfs.nix
+sed -i -e "s!cafebabe!${hostid}!"                                   /mnt/etc/nixos/zfs.nix
 
 # add ./zfs.nix to the imports of configuration.nix
-sed -i '' -e "s!\(./hardware-configuration.nix\)!\1\n      ./zfs.nix!" /mnt/etc/nixos/configuration.nix
+sed -i -e "s!\(./hardware-configuration.nix\)!\1\n      ./zfs.nix!" /mnt/etc/nixos/configuration.nix
 
 echo "Done!"
 echo "Please check if if everything looks allright in all the files in /mnt/etc/nixos/"
