@@ -1,3 +1,6 @@
+
+sudo su
+
 # you only need to set this to the disk to want to install to
 # IT WILL BE WIPED
 rootdisk="${rootdisk:-NONE}";
@@ -40,8 +43,13 @@ export rootdisk keyfile keysize use_passphrase;
 # absolute location for this script (directory the files are in)
 export scriptlocation=$(dirname $(readlink -f $0))
 
+echo "Running partition.sh"
 bash partition.sh
+
+echo "Running formatluks.sh"
 bash formatluks.sh
+
+echo "Running formatzfs.sh"
 bash formatzfs.sh
 
 nixos-generate-config --root /mnt

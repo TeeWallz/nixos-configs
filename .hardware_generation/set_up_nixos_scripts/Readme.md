@@ -18,8 +18,8 @@ below.
 *I do not have a custom iso yet, so you'll need two USBs. One for the NixOS iso, and one for these files. You'll have to mount the second stick manually.*
 1. Download this repo
 ```sh
-curl p-L https://github.com/TeeWallz/nixos-configs/archive/refs/heads/main.zip  -o output.txt 
-/tmp/deploy.zip
+cd /tmp
+curl -L https://paste-api.tomekwaller.com/nixos-zip  -o /tmp/deploy.zip
 unzip deploy.zip
 cd /tmp/nixos-configs-main
 ```
@@ -28,10 +28,11 @@ cd /tmp/nixos-configs-main
 ```sh
 # whole disk please, no partition
 # export rootdisk="/dev/disk/by-id/ata-Some-Storage-Device"
-export rootdisk=$(ls /dev/disk-by-id/* | head -n 1)
+export rootdisk=/dev/disk-by-id/...
 ```
 1. [use keyfile](#use-keyfile) and/or [configure passphrase](#configure-passphrase) usage (see sections below)
 ```sh
+export use_passphrase="yes"
 export passphrase="passphrasehere"
 ```
 1. run it:
