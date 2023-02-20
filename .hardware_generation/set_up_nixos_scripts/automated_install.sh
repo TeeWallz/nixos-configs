@@ -1,6 +1,3 @@
-
-sudo su
-
 # you only need to set this to the disk to want to install to
 # IT WILL BE WIPED
 rootdisk="${rootdisk:-NONE}";

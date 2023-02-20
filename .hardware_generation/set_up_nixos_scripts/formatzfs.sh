@@ -1,8 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -e
 
 # Install zfs in the live environment
 # TODO: do this in the custom bootable iso
+echo 'Install zfs in the live environment'
 sed -i '' -e 's/^}/  boot.supportedFilesystems = ["zfs"];\n}/' /etc/nixos/configuration.nix;
 nixos-rebuild switch
 
@@ -20,6 +21,8 @@ nixos-rebuild switch
 # rpool               \ # new name of the pool
 # /dev/mapper/nixroot   # devices used in the pool (in my case one, so no mirror or raid)
 
+
+echo 'Create zpool'
 zpool create        \
 -O atime=on         \
 -O relatime=on      \
@@ -33,6 +36,7 @@ rpool               \
 
 
 # dataset for / (root)
+echo 'Datasets'
 zfs create -o mountpoint=none rpool/root
 echo created root dataset
 zfs create -o mountpoint=legacy rpool/root/nixos
