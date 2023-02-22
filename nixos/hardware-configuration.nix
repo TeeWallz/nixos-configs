@@ -13,6 +13,38 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
+  fileSystems."/" =
+    { device = "zroot";
+      fsType = "zfs";
+    };
+
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/0048-2EB4";
+      fsType = "vfat";
+    };
+
+  fileSystems."/ext4onzfs" =
+    { device = "/dev/disk/by-uuid/a4f33c91-bcb3-40b5-ab7b-c0f54a4668ac";
+      fsType = "ext4";
+    };
+
+  fileSystems."/zfs_crypted" =
+    { device = "zroot/encrypted/test";
+      fsType = "zfs";
+    };
+
+  fileSystems."/zfs_fs" =
+    { device = "zroot/zfs_fs";
+      fsType = "zfs";
+    };
+
+  fileSystems."/zfs_legacy_fs" =
+    { device = "zroot/zfs_legacy_fs";
+      fsType = "zfs";
+    };
+
+  swapDevices = [ ];
+
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
   # still possible to use this option, but it's recommended to use it in conjunction
