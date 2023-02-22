@@ -6,18 +6,18 @@
 imports =
   [ # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    # "${
-    #     (
-    #       fetchTarball 
-    #         {
-    #           url = "https://github.com/nix-community/disko/archive/master.tar.gz";
-    #           sha256 = "022fvkx4bh3vwj9x8k6xmpb660bywlhrimpcc5bprrr9icys7hrq";
-    #         }
-    #     )
-    #   }/module.nix"
-    (pkgs.callPackage ./disko-config.nix {
-      disks = ["/dev/disk/by-id/ata-QEMU_HARDDISK_QM00003"]; # replace this with your disk name i.e. /dev/nvme0n1
-    })
+    "${
+        (
+          fetchTarball 
+            {
+              url = "https://github.com/nix-community/disko/archive/master.tar.gz";
+              sha256 = "022fvkx4bh3vwj9x8k6xmpb660bywlhrimpcc5bprrr9icys7hrq";
+            }
+        )
+      }/module.nix"
+    # (pkgs.callPackage ./disko-config.nix {
+    #   disks = ["/dev/disk/by-id/ata-QEMU_HARDDISK_QM00003"]; # replace this with your disk name i.e. /dev/nvme0n1
+    # })
   ];
 
   nixpkgs = {
