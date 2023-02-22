@@ -15,9 +15,9 @@ imports =
             }
         )
       }/module.nix"
-    # (pkgs.callPackage ./disko-config.nix {
-    #   disks = ["/dev/disk/by-id/ata-QEMU_HARDDISK_QM00003"]; # replace this with your disk name i.e. /dev/nvme0n1
-    # })
+    (pkgs.callPackage ./disko-config.nix {
+      disks = ["/dev/disk/by-id/ata-QEMU_HARDDISK_QM00003"]; # replace this with your disk name i.e. /dev/nvme0n1
+    })
   ];
 
   nixpkgs = {
@@ -71,7 +71,7 @@ imports =
   # Bootloader.
   boot.loader.grub.enable = true;
   # boot.loader.grub.useOSProber = true;
-  boot.loader.grub.devices = [ "ata-QEMU_HARDDISK_QM00003" ];
+  boot.loader.grub.devices = [ "/dev/disk/by-id/ata-QEMU_HARDDISK_QM00003" ];
   boot.loader.grub.version = 2;
   boot.loader.grub.efiSupport = true;
   boot.loader.grub.efiInstallAsRemovable = true;
