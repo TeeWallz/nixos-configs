@@ -71,12 +71,12 @@ imports =
   # TODO: This is just an example, be sure to use whatever bootloader you prefer
   # boot.loader.systemd-boot.enable = true;
   # Bootloader.
-  boot.loader.grub.enable = true;
+  # boot.loader.grub.enable = true;
   # boot.loader.grub.useOSProber = true;
-  boot.loader.grub.devices = [ "/dev/sda" ];
-  boot.loader.grub.version = 2;
-  boot.loader.grub.efiSupport = true;
-  boot.loader.grub.efiInstallAsRemovable = true;
+  # boot.loader.grub.devices = [ "nodev" ];
+  # boot.loader.grub.version = 2;
+  # boot.loader.grub.efiSupport = true;
+  # boot.loader.grub.efiInstallAsRemovable = true;
 
 
   # Enable networking
