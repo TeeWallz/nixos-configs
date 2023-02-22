@@ -76,7 +76,9 @@ imports =
  ];
 ```
 
-
+```bash
+nixos-install --flake .#hostname
+```
 
 
 
