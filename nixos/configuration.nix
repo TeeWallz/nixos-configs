@@ -15,7 +15,7 @@ imports =
             }
         )
       }/module.nix"
-    "${builtins.fetchTarball "https://github.com/nix-community/disko/archive/master.tar.gz"}/module.nix"
+    # "${builtins.fetchTarball "https://github.com/nix-community/disko/archive/master.tar.gz"}/module.nix"
     (pkgs.callPackage ./disko-config.nix {
       disks = ["/dev/disk/by-id/ata-QEMU_HARDDISK_QM00003"]; # replace this with your disk name i.e. /dev/nvme0n1
     })
