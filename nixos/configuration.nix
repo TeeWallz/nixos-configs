@@ -15,9 +15,9 @@ imports =
             }
         )
       }/module.nix"
-    (pkgs.callPackage ./disko-config.nix {
-      disks = ["/dev/disk/by-id/ata-QEMU_HARDDISK_QM00003"]; # replace this with your disk name i.e. /dev/nvme0n1
-    })
+    # (pkgs.callPackage ./disko-config.nix {
+    #   disks = ["/dev/disk/by-id/ata-QEMU_HARDDISK_QM00003"]; # replace this with your disk name i.e. /dev/nvme0n1
+    # })
   ];
 
   nixpkgs = {
