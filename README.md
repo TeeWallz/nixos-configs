@@ -46,6 +46,7 @@ curl -L https://raw.githubusercontent.com/nix-community/disko/master/example/zfs
 #Edit the sample to remove the second disk and remove the ZFS mirror
 
 sudo nix run github:nix-community/disko --experimental-features 'nix-command flakes' -- --mode zap_create_mount /tmp/disko-config.nix --arg disks '[ "/dev/disk/by-id/..." ]'
+
 ```
 
 ## Download flakes
@@ -56,13 +57,24 @@ cd nixos-configs
 
 ```
 ## If a new pc, generate a new hardware-configuration.nix
-
-
+```bash
 sudo nixos-generate-config --no-filesystems --root /mnt
+```
 
+Upload this into github next to configuration.nix
+```
 
-
-
+## Add the following to the top of the configuration.nix, editing the <disk-name> section
+```nix
+imports =
+ [ # Include the results of the hardware scan.
+   ./hardware-configuration.nix
+   "${builtins.fetchTarball "https://github.com/nix-community/disko/archive/master.tar.gz"}/module.nix"
+   (pkgs.callPackage ./disko-config.nix {
+     disks = ["/dev/<disk-name>"]; # replace this with your disk name i.e. /dev/nvme0n1
+   })
+ ];
+```
 
 
 

@@ -3,19 +3,13 @@
 
 { inputs, outputs, lib, config, pkgs, ... }: {
   # You can import other NixOS modules here
-  imports = [
-    # If you want to use modules your own flake exports (from modules/nixos):
-    # outputs.nixosModules.example
-
-    # Or modules from other flakes (such as nixos-hardware):
-    # inputs.hardware.nixosModules.common-cpu-amd
-    # inputs.hardware.nixosModules.common-ssd
-
-    # You can also split up your configuration and import pieces of it here:
-    # ./users.nix
-
-    # Import your generated (nixos-generate-config) hardware configuration
+imports =
+  [ # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    "${builtins.fetchTarball "https://github.com/nix-community/disko/archive/master.tar.gz"}/module.nix"
+    (pkgs.callPackage ./disko-config.nix {
+      disks = ["/dev/disk/by-id/ata-QEMU_HARDDISK_QM00003"]; # replace this with your disk name i.e. /dev/nvme0n1
+    })
   ];
 
   nixpkgs = {
@@ -68,8 +62,11 @@
   # boot.loader.systemd-boot.enable = true;
   # Bootloader.
   boot.loader.grub.enable = true;
-  boot.loader.grub.device = "/dev/sda";
-  boot.loader.grub.useOSProber = true;
+  # boot.loader.grub.useOSProber = true;
+  boot.loader.grub.devices = [ "ata-QEMU_HARDDISK_QM00003" ];
+  boot.loader.grub.version = 2;
+  boot.loader.grub.efiSupport = true;
+  boot.loader.grub.efiInstallAsRemovable = true;
 
 
   # Enable networking
