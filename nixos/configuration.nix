@@ -73,7 +73,7 @@ imports =
   # Bootloader.
   boot.loader.grub.enable = true;
   # boot.loader.grub.useOSProber = true;
-  boot.loader.grub.devices = [ "/dev/disk/by-id/ata-QEMU_HARDDISK_QM00003" ];
+  boot.loader.grub.devices = [ "/dev/disk/by-uuid/0048-2EB4" ];
   boot.loader.grub.version = 2;
   boot.loader.grub.efiSupport = true;
   boot.loader.grub.efiInstallAsRemovable = true;
