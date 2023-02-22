@@ -6,19 +6,31 @@
 imports =
   [ # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    "${
-        (
-          fetchTarball 
-            {
-              url = "https://github.com/nix-community/disko/archive/master.tar.gz";
-              sha256 = "022fvkx4bh3vwj9x8k6xmpb660bywlhrimpcc5bprrr9icys7hrq";
-            }
-        )
-      }/module.nix"
+    # "${
+    #     (
+    #       fetchTarball 
+    #         {
+    #           url = "https://github.com/nix-community/disko/archive/master.tar.gz";
+    #           sha256 = "022fvkx4bh3vwj9x8k6xmpb660bywlhrimpcc5bprrr9icys7hrq";
+    #         }
+    #     )
+    #   }/module.nix"
     # (pkgs.callPackage ./disko-config.nix {
     #   disks = ["/dev/disk/by-id/ata-QEMU_HARDDISK_QM00003"]; # replace this with your disk name i.e. /dev/nvme0n1
     # })
   ];
+
+  disko.nixosModules.disko
+        {
+          disko.devices = import ./disko-config.nix {
+            lib = nixpkgs.lib;
+          };
+          boot.loader.grub = {
+            devices = [ "/dev/disk/by-id/ata-QEMU_HARDDISK_QM00003" ];
+            efiSupport = true;
+            efiInstallAsRemovable = true;
+          };
+        }
 
   nixpkgs = {
     # You can add overlays here
