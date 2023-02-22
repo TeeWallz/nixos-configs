@@ -6,8 +6,7 @@
 imports =
   [ # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    "
-      ${
+    "${
         (
           fetchTarball 
             {
@@ -15,8 +14,7 @@ imports =
               sha256 = "022fvkx4bh3vwj9x8k6xmpb660bywlhrimpcc5bprrr9icys7hrq";
             }
         )
-      }/module.nix
-    "
+      }/module.nix"
     "${builtins.fetchTarball "https://github.com/nix-community/disko/archive/master.tar.gz"}/module.nix"
     (pkgs.callPackage ./disko-config.nix {
       disks = ["/dev/disk/by-id/ata-QEMU_HARDDISK_QM00003"]; # replace this with your disk name i.e. /dev/nvme0n1
