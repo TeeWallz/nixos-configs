@@ -1,41 +1,31 @@
 #!/usr/bin/env bash 
 
+#git@gist.github.com:7dcd56c8e878e8d98ee6d266f7949d11.git
+
+
 # Defining a helper variable to make the following commands shorter.
 DISK=/dev/vda
-BOOT_TYPE=EFI
 
-if [ "$BOOT_TYPE" = "EFI" ]; then
-    # EFI BOOT
-    # Create partition table
-    parted $DISK -- mklabel gpt
+# EFI BOOT
+# Create partition table
+parted $DISK -- mklabel gpt
 
-    # Create a /boot as $DISK-part1
-    parted $DISK -- mkpart ESP fat32 1MiB 512MiB
-    parted $DISK -- set 1 boot on
+# Create a /boot as $DISK-part1
+parted $DISK -- mkpart ESP fat32 1MiB 512MiB
+parted $DISK -- set 1 boot on
 
-    # Create a /nix as $DISK-part2
-    parted $DISK -s -- mkpart Nix 512MiB 100%
+# Create a /nix as $DISK-part2
+parted $DISK -s -- mkpart Nix 512MiB 100%
 
-    # /boot partition for EFI
-    mkfs.vfat "${DISK}1"
+# /boot partition for EFI
+mkfs.vfat "${DISK}1"
 
-    # /boot partition for legacy boot
-    # mkfs.ext4 "${DISK}1"
+# /boot partition for legacy boot
+# mkfs.ext4 "${DISK}1"
 
-    # /nix partition
-    mkfs.ext4 "${DISK}2"
-else
-    # LEGACY BOOT
-    # Create partition table
-    parted $DISK -- mklabel msdos
+# /nix partition
+mkfs.ext4 "${DISK}2"
 
-    # Create a /boot as $DISK-part1
-    parted $DISK -- mkpart primary ext4 1M 512M
-    parted $DISK -- set 1 boot on
-
-    # Create a /nix as $DISK-part2
-    parted $DISK -- mkpart primary ext4 512MiB 100%
-fi
 
 
 zpool create \

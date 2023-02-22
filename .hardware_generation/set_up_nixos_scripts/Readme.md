@@ -22,6 +22,8 @@ cd /tmp
 curl -L https://paste-api.tomekwaller.com/nixos-zip  -o /tmp/deploy.zip
 unzip deploy.zip
 cd /tmp/nixos-configs-main/.hareware_generation/set_up_nixos_scripts
+source ./exports_vars.sh
+chmod +
 ```
 2. Boot into the nixos environment and find the uuid or id of the disk you want to install to. Do not use `/dev/sda` but `/dev/disk/by-...`, use `lsblk` and `blkid`.
 3. export it to the environment as `rootdisk`:
