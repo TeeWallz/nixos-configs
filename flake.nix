@@ -9,6 +9,9 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
+    disko.url = "github:nix-community/disko";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
+
     # TODO: Add any other flake you might need
     # hardware.url = "github:nixos/nixos-hardware";
 
@@ -60,6 +63,7 @@
           modules = [
             # > Our main nixos configuration file <
             ./nixos/configuration.nix
+            disko.nixosModules.disko
           ];
         };
       };
@@ -75,6 +79,17 @@
           modules = [
             # > Our main home-manager configuration file <
             ./home-manager/home.nix
+            disko.nixosModules.disko
+            {
+              disko.devices = import ./disk-config.nix {
+                lib = nixpkgs.lib;
+              };
+              boot.loader.grub = {
+                devices = [ "/dev/disk/by-id/ata-QEMU_HARDDISK_QM00003" ];
+                efiSupport = true;
+                efiInstallAsRemovable = true;
+              };
+            }
           ];
         };
       };
