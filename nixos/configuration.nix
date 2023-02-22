@@ -21,18 +21,6 @@ imports =
     # })
   ];
 
-  disko.nixosModules.disko
-        {
-          disko.devices = import ./disko-config.nix {
-            lib = nixpkgs.lib;
-          };
-          boot.loader.grub = {
-            devices = [ "/dev/disk/by-id/ata-QEMU_HARDDISK_QM00003" ];
-            efiSupport = true;
-            efiInstallAsRemovable = true;
-          };
-        }
-
   nixpkgs = {
     # You can add overlays here
     overlays = [
