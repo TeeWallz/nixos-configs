@@ -11,7 +11,7 @@ imports =
         (
           fetchTarball 
             {
-              url = "https://github.com/nix-community/disko/archive/master.tar.gz"};
+              url = "https://github.com/nix-community/disko/archive/master.tar.gz";
               sha256 = "c7e5a3b4086eb033a0892043a8d00d32c6ac733425e1b8b41bd30a301469ffbc";
             }
         )
