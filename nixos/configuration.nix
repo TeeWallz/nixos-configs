@@ -92,7 +92,7 @@ imports =
   # };
   systemd-boot = {
     enable = true;
-  }
+  };
 };
 
 

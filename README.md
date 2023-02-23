@@ -22,25 +22,22 @@ https://github.com/nix-community/disko/blob/master/docs/quickstart.md
 # Set password to allow ssh
 passwd
 
-# Enable ssh
-sudo systemctl start sshd
-
 # Get IP to SSH into
 if config
 
 ssh nixos@192.168.x.x
 ```
 
+# Developing/Creating the config the first time
 ## Partition disks and set up zfs pool
 ```bash
 # Find the Disk ID you want to install on
-ls /dev/disk/by-id/
-DISK=/dev/disk/by-id/...
-
 # If this is my QEMU VM, get it automatically
-DISK=$(ls /dev/disk/by-id/* | grep HARD | grep -v part)
+ls /dev/disk/by-id/* | grep HARD | grep -v part
+```
 
-# Download the exmaple
+
+## Testing disk examples
 curl -L https://raw.githubusercontent.com/nix-community/disko/master/example/zfs.nix /tmp/disko-config.nix
 
 #Edit the sample to remove the second disk and remove the ZFS mirror
@@ -56,7 +53,7 @@ git clone https://github.com/TeeWallz/nixos-configs.git
 cd nixos-configs
 
 ```
-## If a new pc, generate a new hardware-configuration.nix
+## Generate a new hardware-configuration.nix
 ```bash
 sudo nixos-generate-config --no-filesystems --root /mnt
 ```
@@ -75,9 +72,13 @@ imports =
    })
  ];
 ```
+Add this to git
+
+
+# RUn the reployment either way
 
 ```bash
-nixos-install --flake .#hostname
+sudo nixos-install --flake .#nixos
 ```
 
 
