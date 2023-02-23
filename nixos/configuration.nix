@@ -78,23 +78,29 @@ imports =
   # boot.loader.grub.efiSupport = true;
   # boot.loader.grub.efiInstallAsRemovable = true;
 
-  boot.loader = {
-  # efi = {
-  #   canTouchEfiVariables = true;
-  #   efiSysMountPoint = "/boot/efi"; # ← use the same mount point here.
+  # boot.loader = {
+  # # efi = {
+  # #   canTouchEfiVariables = true;
+  # #   efiSysMountPoint = "/boot/efi"; # ← use the same mount point here.
+  # # };
+  # # grub = {
+  # #    enable = true;
+  # #    useOSProber = true;
+  # #    efiSupport = true;
+  # #    #efiInstallAsRemovable = true; # in case canTouchEfiVariables doesn't work for your system
+  # #    devices = [ "nodev" ];
+  # # };
+  #   systemd-boot = {
+  #     enable = true;
+  #   };
   # };
-  # grub = {
-  #    enable = true;
-  #    useOSProber = true;
-  #    efiSupport = true;
-  #    #efiInstallAsRemovable = true; # in case canTouchEfiVariables doesn't work for your system
-  #    devices = [ "nodev" ];
-  # };
-  systemd-boot = {
-    enable = true;
-  };
-};
+  # boot.loader.systemd-boot.enable = true;
 
+  boot.loader.grub.devices = [ "/dev/disk/by-id/ata-QEMU_HARDDISK_QM00003" ];
+  boot.loader.grub.enable = true;
+  boot.loader.grub.version = 2;
+  boot.loader.grub.efiSupport = true;
+  boot.loader.grub.efiInstallAsRemovable = true;
 
   # Enable networking
   networking.networkmanager.enable = true;

@@ -16,7 +16,7 @@ https://github.com/nix-community/disko/blob/master/docs/quickstart.md
 - Secrets?: https://github.com/Mic92/sops-nix#deploy-example
 
 
-# Deploying
+# Setup access and pull flake
 ## SSH into server if convenient
 ```bash
 # Set password to allow ssh
@@ -27,6 +27,15 @@ if config
 
 ssh nixos@192.168.x.x
 ```
+## Download flakes
+```bash
+nix-shell -p git
+git clone https://github.com/TeeWallz/nixos-configs.git
+cd nixos-configs
+
+```
+
+
 
 # Developing/Creating the config the first time
 ## Partition disks and set up zfs pool
@@ -41,16 +50,6 @@ ls /dev/disk/by-id/* | grep HARD | grep -v part
 curl -L https://raw.githubusercontent.com/nix-community/disko/master/example/zfs.nix /tmp/disko-config.nix
 
 #Edit the sample to remove the second disk and remove the ZFS mirror
-
-sudo nix run github:nix-community/disko --experimental-features 'nix-command flakes' -- --mode zap_create_mount /tmp/disko-config.nix --arg disks '[ "/dev/disk/by-id/..." ]'
-
-```
-
-## Download flakes
-```bash
-nix-shell -p git
-git clone https://github.com/TeeWallz/nixos-configs.git
-cd nixos-configs
 
 ```
 ## Generate a new hardware-configuration.nix
@@ -75,7 +74,21 @@ imports =
 Add this to git
 
 
-# RUn the reployment either way
+
+# This isn't our first roedo
+```bash
+# ZFS Save key into /tmp/secret.key if encrypting
+nano /tmp/secret.key
+
+
+
+DISCO_CONFIG=/tmp/disko-config.nix
+
+sudo nix run github:nix-community/disko --experimental-features 'nix-command flakes' -- --mode zap_create_mount $DISCO_CONFIG --arg disks '[ "/dev/disk/by-id/ata-QEMU_HARDDISK_QM00003" ]'
+```
+
+
+# Run the reployment either way
 
 ```bash
 sudo nixos-install --flake .#nixos
