@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set –e
+
 export DISK='/dev/disk/by-id/ata-QEMU_HARDDISK_QM00003'
 export INST_PARTSIZE_SWAP=4
 
