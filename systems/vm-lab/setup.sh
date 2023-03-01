@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
-# Be sure to run `nix-shell -p git`
+# Be sure to run:
+# nix-shell -p git
+# git clone https://github.com/TeeWallz/nixos-configs.git && cd nixos-configs
+# 
 
 echo 'test' > /tmp/secret.key
 DISCO_CONFIG=/home/nixos/nixos-configs/nixos/disko-config.nix

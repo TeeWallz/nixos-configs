@@ -1,106 +1,112 @@
 
-# Tom's NixOS repo'
 
-https://github.com/PedroHLC/system-setup
-https://github.com/nix-community/disko/blob/master/docs/quickstart.md
+ZFS Impermenance
+Source:
+https://openzfs.github.io/openzfs-docs/Getting Started/NixOS/index.html#root-on-zfs
 
+# Preparation
+* Boot into live ISO
+* Set SSH Password
+* Find target disk ```find /dev/disk/by-id/```
+* Declare disk array ```export DISK='/dev/disk/by-id/ata-QEMU_HARDDISK_QM00003'```
+* Set swap size, set to 1 if you don’t want swap to take up too much space: ```export INST_PARTSIZE_SWAP=4```
 
-## Docs
-- Official Docs: https://nixos.org/manual/nixos/stable/index.html#sec-installation-graphical
-- Cheatsheet: https://nixos.wiki/wiki/Cheatsheet
-- Cool Links: https://github.com/nix-community/awesome-nix
-- Examples:
-  - https://github.com/reckenrode/nixos-configs
-  - https://github.com/michaelpj/nixos-config
-  - https://gitlab.com/samueldr/nixos-configuration/-/tree/latest/
-- Secrets?: https://github.com/Mic92/sops-nix#deploy-example
-
-
-# Setup access and pull flake
-## SSH into server if convenient
+# System Installation
 ```bash
-# Set password to allow ssh
-passwd
+#!/usr/bin/env bash
 
-# Get IP to SSH into
-if config
+for i in ${DISK}; do
 
-ssh nixos@192.168.x.x
+# wipe flash-based storage device to improve
+# performance.
+# ALL DATA WILL BE LOST
+# blkdiscard -f $i
+
+sgdisk --zap-all $i
+
+sgdisk -n1:1M:+1G -t1:EF00 $i
+
+sgdisk -n2:0:+4G -t2:BE00 $i
+
+sgdisk -n4:0:+${INST_PARTSIZE_SWAP}G -t4:8200 $i
+
+if test -z $INST_PARTSIZE_RPOOL; then
+    sgdisk -n3:0:0   -t3:BF00 $i
+else
+    sgdisk -n3:0:+${INST_PARTSIZE_RPOOL}G -t3:BF00 $i
+fi
+
+sgdisk -a1 -n5:24K:+1000K -t5:EF02 $i
+
+sync && udevadm settle && sleep 3
+
+cryptsetup open --type plain --key-file /dev/random $i-part4 ${i##*/}-part4
+mkswap /dev/mapper/${i##*/}-part4
+swapon /dev/mapper/${i##*/}-part4
+done
+
 ```
-## Download flakes
+
+Create boot pool:
 ```bash
-nix-shell -p git
-git clone https://github.com/TeeWallz/nixos-configs.git
-cd nixos-configs
-
+zpool create \
+    -o compatibility=grub2 \
+    -o ashift=12 \
+    -o autotrim=on \
+    -O acltype=posixacl \
+    -O canmount=off \
+    -O compression=lz4 \
+    -O devices=off \
+    -O normalization=formD \
+    -O relatime=on \
+    -O xattr=sa \
+    -O mountpoint=/boot \
+    -R /mnt \
+    bpool \
+    $(for i in ${DISK}; do
+       printf "$i-part2 ";
+      done)
 ```
 
-
-
-# Developing/Creating the config the first time
-## Partition disks and set up zfs pool
+Create root pool:
 ```bash
-# Find the Disk ID you want to install on
-# If this is my QEMU VM, get it automatically
-ls /dev/disk/by-id/* | grep HARD | grep -v part
+zpool create \
+    -o ashift=12 \
+    -o autotrim=on \
+    -R /mnt \
+    -O acltype=posixacl \
+    -O canmount=off \
+    -O compression=zstd \
+    -O dnodesize=auto \
+    -O normalization=formD \
+    -O relatime=on \
+    -O xattr=sa \
+    -O mountpoint=/ \
+    rpool \
+   $(for i in ${DISK}; do
+      printf "$i-part3 ";
+     done)
 ```
 
+# Create root system container:
 
-## Testing disk examples
-curl -L https://raw.githubusercontent.com/nix-community/disko/master/example/zfs.nix /tmp/disko-config.nix
-
-#Edit the sample to remove the second disk and remove the ZFS mirror
-
-```
-## Generate a new hardware-configuration.nix
+## Unencrypted:
 ```bash
-sudo nixos-generate-config --no-filesystems --root /mnt
+zfs create \
+    -o canmount=off \
+    -o mountpoint=none \
+    rpool/nixos
 ```
 
-Upload this into github next to configuration.nix
-```
+## Encrypted:
 
-## Add the following to the top of the configuration.nix, editing the <disk-name> section
-```nix
-imports =
- [ # Include the results of the hardware scan.
-   ./hardware-configuration.nix
-   "${builtins.fetchTarball "https://github.com/nix-community/disko/archive/master.tar.gz"}/module.nix"
-   (pkgs.callPackage ./disko-config.nix {
-     disks = ["/dev/<disk-name>"]; # replace this with your disk name i.e. /dev/nvme0n1
-   })
- ];
-```
-Add this to git
-
-
-
-# This isn't our first roedo
+Pick a strong password. Once compromised, changing password will not keep your data safe. See zfs-change-key(8) for more info:
 ```bash
-# ZFS Save key into /tmp/secret.key if encrypting
-nano /tmp/secret.key
-
-
-
-DISCO_CONFIG=/tmp/disko-config.nix
-
-sudo nix run github:nix-community/disko --experimental-features 'nix-command flakes' -- --mode zap_create_mount $DISCO_CONFIG --arg disks '[ "/dev/disk/by-id/ata-QEMU_HARDDISK_QM00003" ]'
+zfs create \
+    -o canmount=off \
+    -o mountpoint=none \
+    -o encryption=on \
+    -o keylocation=prompt \
+    -o keyformat=passphrase \
+    rpool/nixos
 ```
-
-
-# Run the reployment either way
-
-```bash
-sudo nixos-install --flake .#nixos
-```
-
-
-
-
-
-
-
-
-
-
-
