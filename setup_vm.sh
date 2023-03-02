@@ -88,6 +88,7 @@ zpool create \
       printf "$i-part3 ";
      done)
 
+# ZFS WEBSITE POOLS/DATASETS
 # Datasets:
 #  zpool
 #    nixos
@@ -100,6 +101,9 @@ zpool create \
 #  bpool
 #    nixos
 #      root     -> /mnt/boot
+
+
+
 
 
 # Create nixos dataset on rpool/nixos
