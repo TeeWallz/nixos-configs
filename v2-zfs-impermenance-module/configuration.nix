@@ -229,5 +229,8 @@ in {
       (tail zfsRoot.bootDevices)));
   boot.loader.grub.devices =
     (map (diskName: zfsRoot.devNodes + diskName) zfsRoot.bootDevices);
+  boot.initrd.postDeviceCommands = lib.mkAfter ''
+    zfs rollback -r rpool/nixos/local/root@blank
+  '';
 }
 
