@@ -40,7 +40,7 @@ echo $dataset_persist
 # rpool/nixos/local/root
 # rpool/nixos/persist
 
-print("Creating ZFS root dataset")
+echo "Creating ZFS root dataset"
 # Create base dataset with encryption
 zfs create \
     -o canmount=off \
@@ -50,7 +50,7 @@ zfs create \
     -o keyformat=passphrase \
     $datasets_base
 
-print("Creating sub datasets")
+echo "Creating sub datasets"
 # Create our datasets
 zfs create -o mountpoint=legacy "${dataset_persist}"
 zfs create -p -o mountpoint=legacy "${dataset_nix}"
