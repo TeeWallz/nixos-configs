@@ -2,6 +2,8 @@
 
 set –e
 
+#https://openzfs.github.io/openzfs-docs/Getting Started/NixOS/index.html#root-on-zfs
+
 # STEP 1 - SET UP PARTITITONS
 # GOAL:
 #   PARTITION 5: BIOS BOOT?     (24KiB - 1MiB)
@@ -10,7 +12,9 @@ set –e
 #   PARTITION 4: LINUX SWAP     (4GiB - 4+INST_PARTSIZE_SWAP GiB)
 #   PARTITION 3: DATA ROOT      (Fill)
 
-
+disk_arr=( $DISK )
+disk_count=${#disk_arr[@]}
+echo $disk_count
 
 for i in ${DISK}; do
 
@@ -49,20 +53,44 @@ for i in ${DISK}; do
     swapon /dev/mapper/${i##*/}-part4
 done
 
+# Do we have multiple disks? If so, activate zpool mirror
+disk_arr=( $DISK )
+disk_count=${#disk_arr[@]}
+args_mirror=""
+if [ $disk_count -gt 1 ]; then
+    args_mirror="mirror"
+fi
+
+args_shared=(
+    -o ashift=12
+    -o autotrim=on
+    -O acltype=posixacl
+    -O canmount=off
+    -O normalization=formD
+    -O relatime=on
+    -O xattr=sa
+    -R /mnt
+    "${args_mirror}"
+)
+
+args_boot=(
+    -o compatibility=grub2 
+    -O compression=lz4 
+    -O mountpoint=/boot
+    -O devices=off
+    "${args_shared[@]}"
+)
+
+args_root=(
+    -O compression=zstd
+    -O mountpoint=/ 
+    -O dnodesize=auto
+    "${args_shared[@]}"
+)
+
 # Create ZFS Boot pool
 zpool create \
-    -o compatibility=grub2 \
-    -o ashift=12 \
-    -o autotrim=on \
-    -O acltype=posixacl \
-    -O canmount=off \
-    -O compression=lz4 \
-    -O devices=off \
-    -O normalization=formD \
-    -O relatime=on \
-    -O xattr=sa \
-    -O mountpoint=/boot \
-    -R /mnt \
+    "${args_boot[@]}" \
     bpool \
     $(for i in ${DISK}; do
        printf "$i-part2 ";
@@ -70,21 +98,11 @@ zpool create \
 
 # Create ZFS Root pool
 zpool create \
-    -o ashift=12 \
-    -o autotrim=on \
-    -R /mnt \
-    -O acltype=posixacl \
-    -O canmount=off \
-    -O compression=zstd \
-    -O dnodesize=auto \
-    -O normalization=formD \
-    -O relatime=on \
-    -O xattr=sa \
-    -O mountpoint=/ \
+    "${args_root[@]}" \
     rpool \
-   $(for i in ${DISK}; do
-      printf "$i-part3 ";
-     done)
+    $(for i in ${DISK}; do
+       printf "$i-part3 ";
+      done)
 
 # ZFS WEBSITE POOLS/DATASETS
 # Datasets:
