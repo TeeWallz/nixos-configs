@@ -32,7 +32,15 @@ echo $dataset_nix
 echo $dataset_root
 echo $dataset_persist
 
+# bpool/nixos
+# bpool/nixos/root
+# rpool/nixos
+# rpool/nixos/local
+# rpool/nixos/local/nix
+# rpool/nixos/local/root
+# rpool/nixos/persist
 
+print("Creating ZFS root dataset")
 # Create base dataset with encryption
 zfs create \
     -o canmount=off \
@@ -42,12 +50,13 @@ zfs create \
     -o keyformat=passphrase \
     $datasets_base
 
+print("Creating sub datasets")
 # Create our datasets
 zfs create -o mountpoint=legacy "${dataset_persist}"
 zfs create -p -o mountpoint=legacy "${dataset_nix}"
 zfs create -p -o mountpoint=legacy "${dataset_root}"
 # Snapshot root before anything is created so that it can be wiped on boot
-zfs snapshot rpool/local/root@blank
+zfs snapshot "${dataset_root}@blank"
 
 # Create boot datasets
 zfs create -o mountpoint=none "${dataset_boot}"
@@ -58,6 +67,8 @@ mkdir /mnt/boot
 mkdir /mnt/nix
 
 mount -t zfs "${dataset_root}" /mnt/
+mkdir /mnt/boot
+mkdir /mnt/nix
 mount -t zfs "${dataset_boot_root}" /mnt/boot
 mount -t zfs "${dataset_nix}" /mnt/nix
 
