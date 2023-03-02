@@ -1,7 +1,39 @@
 
 ZFS Impermenance
+
+# V1 Pool Setup
 Source:
 https://openzfs.github.io/openzfs-docs/Getting Started/NixOS/index.html#root-on-zfs
+```
+ZFS WEBSITE POOLS/DATASETS
+Datasets:
+ zpool
+   nixos
+     root     -> /mnt/
+     home     -> /mnt/home
+     var      -> 
+     var/lib  -> 
+     var/log  -> 
+     empty    ->               (Snapshotted empty, labelled @start)
+ bpool
+   nixos
+     root     -> /mnt/boot
+```
+
+
+# V2 pool setup
+Datasets under rpool/safe are backed up, rpool/local arent
+
+```
+rpool
+  ephemeral
+    root    -> /mnt       (Snapshotted as @blank)
+    nix     -> /mnt/nix
+  safe
+    home    -> /mnt/home
+    persist -> /mnt/persist
+  
+```
 
 
 # First setup that works consistently
