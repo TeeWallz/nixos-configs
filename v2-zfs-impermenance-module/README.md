@@ -46,21 +46,12 @@ export GITHUB_ROOT_DIR="https://raw.githubusercontent.com/TeeWallz/nixos-configs
 export SETUP_URL="${GITHUB_ROOT_DIR}/setup/setup_vm.sh"
 export NIX_CONFIG_URL="${GITHUB_ROOT_DIR}/configuration.nix"
 
+cd /tmp
+curl -o /tmp/nixos-configs.zip -L "https://github.com/TeeWallz/nixos-configs/archive/refs/heads/main.zip"
+unzip /tmp/nixos-configs.zip
+cd /tmp/nixos-configs-main/v2-zfs-impermenance-module/scripts
 
-curl -o /tmp/setup_vm.sh -L "${GITHUB_ROOT_DIR}/scripts/setup_vm.sh"
-curl -o /tmp/setup_disk_and_pool.sh -L "${GITHUB_ROOT_DIR}/scripts/setup_disk_and_pool.sh"
-curl -o /tmp/setup_zfs_datasets.sh -L "${GITHUB_ROOT_DIR}/scripts/setup_zfs_datasets.sh"
-curl -o /tmp/format_boot.sh -L "${GITHUB_ROOT_DIR}/scripts/format_boot.sh"
-curl -o /tmp/setup_nixos_configuration.sh -L "${GITHUB_ROOT_DIR}/scripts/setup_nixos_configuration.sh"
-
-
-# curl -o /tmp/setup_vm.sh -L ${SETUP_URL}
-chmod +x /tmp/setup_vm.sh
-chmod +x /tmp/setup_disk_and_pool.sh 
-chmod +x /tmp/setup_zfs_datasets.sh
-chmod +x /tmp/format_boot.sh
-chmod +x /tmp/setup_nixos_configuration.sh
-
-/tmp/setup_vm.sh
+chmod +x ./setup_vm.sh
+./setup_vm.sh
 ```
 
