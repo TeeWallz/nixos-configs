@@ -142,6 +142,12 @@ in {
       options = [ "X-mount.mkdir" ];
     };
 
+    "/nix" = {
+      device = "rpool/nixos/local/nix";
+      fsType = "zfs";
+      options = [ "X-mount.mkdir" ];
+    };
+
     # "/home" = {
     #   device = "rpool/nixos/home";
     #   fsType = "zfs";
