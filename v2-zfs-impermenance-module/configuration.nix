@@ -14,13 +14,15 @@ let
   zfsRoot.devNodes = PLACEHOLDER_FOR_DEV_NODE_PATH; # MUST have trailing slash! /dev/disk/by-id/
   zfsRoot.bootDevices = (import ./machine.nix).bootDevices;
   zfsRoot.mirroredEfi = "/boot/efis/";
+  impermanence = builtins.fetchTarball "https://github.com/nix-community/impermanence/archive/master.tar.gz";
 
 in {
   # adjust according to your platform, such as
   imports = [
-    # (modulesPath + "/profiles/qemu-guest.nix")
+    (modulesPath + "/profiles/qemu-guest.nix")
     # (modulesPath + "/profiles/all-hardware.nix")
-    (modulesPath + "/installer/scan/not-detected.nix")
+    # (modulesPath + "/installer/scan/not-detected.nix")
+    "${impermanence}/nixos.nix"
   ];
   systemd.services.zfs-mount.enable = false;
 
@@ -193,6 +195,25 @@ in {
       allowDiscards = true;
     };
   }) zfsRoot.bootDevices);
+
+
+
+  # this folder is where the files will be stored (don't put it in tmpfs)
+  environment.persistence."/nix/persist/system" = { 
+    directories = [
+      "/etc/nixos"    # bind mounted from /nix/persist/system/etc/nixos to /etc/nixos
+      "/etc/NetworkManager"
+      "/var/log"
+      "/var/lib"
+    ];
+    files = [
+#      "/etc/machine-id"
+      "/etc/nix/id_rsa"
+    ];
+  };
+
+
+
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
