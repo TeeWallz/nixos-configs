@@ -15,8 +15,6 @@ done
 echo -n "> "
 read hostname
 
-# if [[ ! " $hosts_to_select_from " =~ .*\ $hostname \.* ]]; then
-# if [[ " ${hosts_to_select_from[*]} " =~ " ${hostname} " ]]; then
 if [ ! -d "$HOST_DIRECTORY/$hostname" ] ; then
     echo "ERROR: Entered host '${hostname}' not in hosts directory."
     echo "       Please enter value from above or create a new one in ./hosts/<NAME>."
@@ -24,13 +22,16 @@ if [ ! -d "$HOST_DIRECTORY/$hostname" ] ; then
     exit 1
 fi
 
-setup_file="./hosts/${hostname}/prepare_disk.sh"
+setup_file="./${HOST_DIRECTORY}/${hostname}/prepare_disk.sh"
 if [ ! -f "$setup_file" ]; then
     echo "ERROR: $setup_file does not exist. Quitting."
     exit 1
 fi
 
+echo "Host found. Disk setup found. Running ${setup_file}"
+
 export $hostname
+eval "${setup_file}"
 
 exit
 
