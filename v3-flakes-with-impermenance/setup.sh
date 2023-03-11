@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
 cd $( dirname -- "$0"; )
-hosts_to_select_from=$(ls hosts | grep -v common)
+
+HOST_DIRECTORY="./hosts"
+
+hosts_to_select_from=$(ls $HOST_DIRECTORY | grep -v common)
 
 # Get the host from input and verify against configs
 echo -e "Enter the hostname to deploy. \nChoices:"
@@ -13,7 +16,8 @@ echo -n "> "
 read hostname
 
 # if [[ ! " $hosts_to_select_from " =~ .*\ $hostname \.* ]]; then
-if [[ " ${hosts_to_select_from[*]} " =~ " ${hostname} " ]]; then
+# if [[ " ${hosts_to_select_from[*]} " =~ " ${hostname} " ]]; then
+if [ ! -d "$HOST_DIRECTORY/$hostname" ] ; then
     echo "ERROR: Entered host '${hostname}' not in hosts directory."
     echo "       Please enter value from above or create a new one in ./hosts/<NAME>."
     echo "       Quitting."
