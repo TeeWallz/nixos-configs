@@ -5,9 +5,8 @@ sudo su
 cd /tmp
 curl -o /tmp/nixos-configs.zip -L "https://github.com/TeeWallz/nixos-configs/archive/refs/heads/main.zip"
 unzip /tmp/nixos-configs.zip
-
 cd /tmp/nixos-configs-main/v3-flakes-with-impermenance/
-
+./setup.sh
 
 ```
 

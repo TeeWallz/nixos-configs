@@ -23,11 +23,11 @@ fi
 
 sgdisk --zap-all ${DISK}                                # Wipe disk
 sgdisk -n1:1M:+1G -t1:EF00 ${DISK}                      # EFI Boot
-sgdisk -n3:0:+${INST_PARTSIZE_SWAP}G -t4:8200 ${DISK}   # Swap
+sgdisk -n3:0:+${INST_PARTSIZE_SWAP}G -t3:8200 ${DISK}   # Swap
 if test -z $INST_PARTSIZE_RPOOL; then                   # ZFS Root Pool
-    sgdisk -n2:0:0   -t3:BF00 ${DISK}
+    sgdisk -n2:0:0   -t2:BF00 ${DISK}
 else
-    sgdisk -n2:0:+${INST_PARTSIZE_RPOOL}G -t3:BF00 ${DISK}
+    sgdisk -n2:0:+${INST_PARTSIZE_RPOOL}G -t2:BF00 ${DISK}
 fi
 sync && udevadm settle && sleep 3                       # Wait for all disk tasks to complete
 
@@ -40,5 +40,5 @@ mkfs.vfat -n ESP "${DISK}-part1"
 zpool create \
     -o ashift=12 -o autotrim=on -m none  -O acltype=posixacl -O canmount=off \
     -O compression=zstd -O dnodesize=auto  -O normalization=formD \
-    -O relatime=on -O xattr=sa rpool "${DISK}-part3 "
+    -O relatime=on -O xattr=sa rpool "${DISK}-part2"
 
