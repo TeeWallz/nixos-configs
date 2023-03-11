@@ -4,13 +4,13 @@
 { config, lib, pkgs, modulesPath, ... }:
 
 let
-  zfsRoot.partitionScheme = {
-    biosBoot = "-part5";
-    efiBoot = "-part1";
-    swap = "-part4";
-    bootPool = "-part2";
-    rootPool = "-part3";
-  };
+  #### zfsRoot.partitionScheme = {
+  ####   biosBoot = "-part5";
+  ####   efiBoot = "-part1";
+  ####   swap = "-part4";
+  ####   bootPool = "-part2";
+  ####   rootPool = "-part3";
+  #### };
   zfsRoot.devNodes = PLACEHOLDER_FOR_DEV_NODE_PATH; # MUST have trailing slash! /dev/disk/by-id/
   zfsRoot.bootDevices = (import ./machine.nix).bootDevices;
   zfsRoot.mirroredEfi = "/boot/efis/";
@@ -266,7 +266,7 @@ in {
   hardware.cpu.amd.updateMicrocode =
     lib.mkDefault config.hardware.enableRedistributableFirmware;
 
-  boot.supportedFilesystems = [ "zfs" ];
+  #### boot.supportedFilesystems = [ "zfs" ];
   networking.hostId = "abcd1234";
   boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
   boot.loader.efi.efiSysMountPoint = with builtins;
