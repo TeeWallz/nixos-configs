@@ -10,4 +10,4 @@ git add -A
 git commit -m "$1"
 git push
 
-npm run deploy
+# npm run deploy
