@@ -1,7 +1,7 @@
 # This is just an example, you should generate yours with nixos-generate-config and put it in here.
 {
   fileSystems."/" = {
-    device = "/dev/sda1";
+    device = "/dev/disk/by-id/ata-QEMU_HARDDISK_QM00003";
     fsType = "ext4";
   };
 
