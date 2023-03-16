@@ -1,8 +1,15 @@
 # This is just an example, you should generate yours with nixos-generate-config and put it in here.
 {
-  fileSystems."/" = {
-    device = "/dev/disk/by-id/ata-QEMU_HARDDISK_QM00003";
-    fsType = "ext4";
+  fileSystems = {
+    "/boot" = {
+      device = "/dev/disk/by-label/ESP";
+      fsType = "vfat";
+    };
+
+    "/" = {
+      device = "/dev/disk/by-label/zamorak";
+      fsType = "ext4";
+    };
   };
 
   # Set your system kind (needed for flakes)

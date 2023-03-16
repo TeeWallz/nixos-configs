@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+export i='/dev/disk/by-id/ata-QEMU_HARDDISK_QM00003'
+
+sgdisk --zap-all $i
+sgdisk -n1:1M:+1G -t1:EF00 $i
+sgdisk -n2:0:0   -t3:BF00 $i
+
+mkfs.vfat -n EFI ${i}-part1
+mkfs.ext4 "${i}-part3"
+
+mkdir /mnt/boot
+mount "${i}-part3" /mnt/
+mount "${i}-part1" /mnt/boot
