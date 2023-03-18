@@ -48,5 +48,5 @@
 
   # nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   nixpkgs.hostPlatform = "x86_64-linux";
-  hardware.cpu.intel.updateMicrocode = hardware.enableRedistributableFirmware;
+  # hardware.cpu.intel.updateMicrocode = hardware.enableRedistributableFirmware;
 }
