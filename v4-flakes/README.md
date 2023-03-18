@@ -19,12 +19,18 @@ sgdisk $i -o
 sgdisk -n1:1M:+1G -t1:EF00 $i
 sgdisk $i -n 2
 
+sync && udevadm settle && sleep 3
+
 mkfs.vfat -n ESP "${i}-part1"
 mkfs.ext4 "${i}-part2"
 
 sync && udevadm settle && sleep 3
 
 e2label "${i}-part2" zamorak
+
+sync && udevadm settle && sleep 3
+
+ls /dev/disk/by-label/*
 
 mount /dev/disk/by-label/zamorak /mnt/
 mkdir /mnt/boot
@@ -54,3 +60,16 @@ mount /dev/disk/by-label/zamorak /mnt/
 mount -t vfat /dev/disk/by-label/ESP /mnt/boot
 
 ```
+
+```
+cd /tmp
+rm /tmp/nixos-configs.zip
+rm -rf /tmp/nixos-configs-main/
+```
+
+
+
+mount /dev/disk/by-uuid/F03C-5E9E /mnt/
+mount -t vfat /dev/disk/by-uuid/ca45136c-4435-4fc7-b19c-cf848a17c7a5 /mnt/boot
+
+
