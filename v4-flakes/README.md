@@ -14,18 +14,21 @@ export my_hostname=$(cat /etc/hostname)
 if [ "$my_hostname" != "nixos" ]; then
      echo "dumbass"
 else
-    sgdisk --zap-all $i
-    sgdisk $i -o
-    sgdisk -n1:1M:+1G -t1:EF00 $i
-    sgdisk $i -n 2
+sgdisk --zap-all $i
+sgdisk $i -o
+sgdisk -n1:1M:+1G -t1:EF00 $i
+sgdisk $i -n 2
 
-    mkfs.vfat -n ESP ${i}-part1
-    mkfs.ext4 "${i}-part2"
-    e2label "${i}-part2" zamorak
+mkfs.vfat -n ESP "${i}-part1"
+mkfs.ext4 "${i}-part2"
 
-    mount "${i}-part2" /mnt/
-    mkdir /mnt/boot
-    mount -t vfat "${i}-part1" /mnt/boot
+sync && udevadm settle && sleep 3
+
+e2label "${i}-part2" zamorak
+
+mount /dev/disk/by-label/zamorak /mnt/
+mkdir /mnt/boot
+mount -t vfat /dev/disk/by-label/ESP /mnt/boot
 fi
 
 
@@ -47,7 +50,7 @@ fi
 
 
 ```
-    mount /dev/disk/by-label/zamorak /mnt/
-    mount -t vfat /dev/disk/by-label/ESP /mnt/boot
+mount /dev/disk/by-label/zamorak /mnt/
+mount -t vfat /dev/disk/by-label/ESP /mnt/boot
 
 ```
