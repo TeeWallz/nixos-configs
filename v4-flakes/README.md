@@ -9,7 +9,7 @@ https://github.com/Misterio77/nix-config
 sudo su
 export i='/dev/disk/by-id/ata-QEMU_HARDDISK_QM00003'
 
-my_hostname=$(cat /etc/hostname)
+export my_hostname=$(cat /etc/hostname)
 
 if [ "$my_hostname" != "nixos" ]; then
      echo "dumbass"
@@ -26,21 +26,28 @@ else
     mount "${i}-part2" /mnt/
     mkdir /mnt/boot
     mount -t vfat "${i}-part1" /mnt/boot
-
-    cd /tmp
-    curl -o /tmp/nixos-configs.zip -L "https://github.com/TeeWallz/nixos-configs/archive/refs/heads/main.zip"
-    unzip /tmp/nixos-configs.zip
-    cd /tmp/nixos-configs-main/v4-flakes/
-
-
-
-    nixos-install --flake .#zamorak
 fi
 
 
 
 
 
+if [ "$my_hostname" != "nixos" ]; then
+     echo "dumbass"
+else
+    cd /tmp
+    curl -o /tmp/nixos-configs.zip -L "https://github.com/TeeWallz/nixos-configs/archive/refs/heads/main.zip"
+    unzip /tmp/nixos-configs.zip
+    cd /tmp/nixos-configs-main/v4-flakes/
 
+    nixos-install --flake .#zamorak
+fi
+
+```
+
+
+```
+    mount /dev/disk/by-label/zamorak /mnt/
+    mount -t vfat /dev/disk/by-label/ESP /mnt/boot
 
 ```
