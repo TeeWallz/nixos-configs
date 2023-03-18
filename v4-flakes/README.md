@@ -65,6 +65,11 @@ mount -t vfat /dev/disk/by-label/ESP /mnt/boot
 cd /tmp
 rm /tmp/nixos-configs.zip
 rm -rf /tmp/nixos-configs-main/
+curl -o /tmp/nixos-configs.zip -L "https://github.com/TeeWallz/nixos-configs/archive/refs/heads/main.zip"
+unzip /tmp/nixos-configs.zip
+cd /tmp/nixos-configs-main/v4-flakes/
+
+nixos-install --flake .#zamorak
 ```
 
 

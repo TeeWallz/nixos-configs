@@ -37,8 +37,25 @@ swapon "${DISK}-part3"
 
 mkfs.vfat -n ESP "${DISK}-part1"
 
+sleep 3
+
+echo "Creating rpool"
+
 zpool create \
     -o ashift=12 -o autotrim=on -m none  -O acltype=posixacl -O canmount=off \
     -O compression=zstd -O dnodesize=auto  -O normalization=formD \
-    -O relatime=on -O xattr=sa rpool "${DISK}-part2"
+    -O relatime=on -O xattr=sa rpool "${DISK}-part3"
 
+zpool create \
+    -o compatibility=grub2 \
+    -o ashift=12 \
+    -o autotrim=on \
+    -m none \
+    -O acltype=posixacl \
+    -O canmount=off \
+    -O compression=lz4 \
+    -O devices=off \
+    -O normalization=formD \
+    -O relatime=on \
+    -O xattr=sa \
+    bpool "${DISK}-part3"
