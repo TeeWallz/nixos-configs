@@ -54,7 +54,7 @@
         # My First VM :D
         zamorak = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs outputs; };
-          modules = [ ./nixos/zamorak];
+          modules = [ ./hosts/zamorak];
         };
       };
 

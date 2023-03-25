@@ -3,8 +3,8 @@
 set –e
 
 mkdir -p /mnt/etc/nixos/
-# curl -o /mnt/etc/nixos/configuration.nix -L \
-# https://github.com/openzfs/openzfs-docs/raw/master/docs/Getting%20Started/NixOS/Root%20on%20ZFS/configuration.nix
+curl -o /mnt/etc/nixos/configuration.nix -L \
+https://github.com/openzfs/openzfs-docs/raw/master/docs/Getting%20Started/NixOS/Root%20on%20ZFS/configuration.nix
 
 cp ../configuration.nix /mnt/etc/nixos/configuration.nix
 

@@ -8,6 +8,8 @@ unzip /tmp/nixos-configs.zip
 cd /tmp/nixos-configs-main/v3-flakes-with-impermenance/
 ./setup.sh
 
+
+
 ```
 
 
