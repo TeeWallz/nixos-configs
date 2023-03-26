@@ -8,7 +8,7 @@ cd /tmp/nixos-configs-main
 cd v8-zfs-from-guide-PURE-from-guide/dotfiles-flake/
 
 cp -r * /mnt/etc/nixos
+cd /mnt/etc/nixos
 
 
-
-
+nixos-install --flake .#guthix

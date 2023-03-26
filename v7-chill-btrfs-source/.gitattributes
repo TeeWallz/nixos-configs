@@ -1,1 +1,0 @@
-*.secret.nix  filter=crypt diff=crypt
