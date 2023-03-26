@@ -23,9 +23,14 @@
         # install to /mnt with
         # nixos-install --flake ./#exampleHost
         exampleHost = let
-          system = "systemType_placeholder";
+          system = "x86_64-linux";
           pkgs = nixpkgs.legacyPackages.${system};
         in my.lib.mkHost (import ./hosts/exampleHost { inherit system pkgs; });
+
+        guthix = let
+          system = "x86_64-linux";
+          pkgs = nixpkgs.legacyPackages.${system};
+        in my.lib.mkHost (import ./hosts/guthix { inherit system pkgs; });
 
         # build with
         # nix build .#nixosConfigurations.live-iso.config.system.build.isoImage
