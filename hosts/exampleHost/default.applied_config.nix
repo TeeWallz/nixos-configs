@@ -11,6 +11,7 @@
       devNodes = "/dev/disk/by-id/";
       bootDevices = [  "ata-QEMU_HARDDISK_QM00003" ];
       immutable = false;
+      # echo \"$(head -c4 /dev/urandom | od -A none -t x4| sed 's| ||g')\"
       hostId = "d4780b86";
       availableKernelModules = [
         # for booting virtual machine

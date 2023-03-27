@@ -62,14 +62,14 @@
         # generate hash with:
         # mkpasswd -m SHA-512 -s
         # set hash to "!" to disable login
-        initialHashedPassword = "rootHash_placeholder";
+        initialHashedPassword = "$6$1RZ.G8.qPCbULb4C$iBxWO83NN9jAQHgYWYhU6H9FQqFbNfboL5IY5sj.PSWlYGfdx588ashgL35Wl0zQMUSjxuP7y7Hy7fsLiYPt11";
 
         authorizedKeys = [ "sshKey_placeholder" ];
         isSystemUser = true;
       };
 
-      my-user = {
-        initialHashedPassword = "!";
+      tom = {
+        initialHashedPassword = "$6$1RZ.G8.qPCbULb4C$iBxWO83NN9jAQHgYWYhU6H9FQqFbNfboL5IY5sj.PSWlYGfdx588ashgL35Wl0zQMUSjxuP7y7Hy7fsLiYPt11";
         description = "J. Magoo";
         extraGroups = [ "wheel" ];
         packages = with pkgs; [ mg ];
