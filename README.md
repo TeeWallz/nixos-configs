@@ -29,7 +29,7 @@ git checkout combining_zfs_and_misterio
 
 
 
-nixos-install --no-root-passwd --flake "git+file:///mnt/etc/nixos#guthix"
+nixos-install --no-root-passwd --flake "git+file:///mnt/etc/nixos#saradomin"
 
 umount -Rl /mnt
 zpool export -a

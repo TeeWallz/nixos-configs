@@ -15,6 +15,7 @@
   outputs = { self, nixpkgs, home-manager }@inputs:
     let
       lib = nixpkgs.lib;
+      inherit (self) outputs;
       my = import ./my { inherit inputs home-manager lib; };
     in {
       nixosConfigurations = {
