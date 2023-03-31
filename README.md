@@ -25,7 +25,7 @@ nix-shell -p git
 
 git clone https://github.com/TeeWallz/nixos-configs.git /mnt/etc/nixos
 cd /mnt/etc/nixos
-
+git checkout combining_zfs_and_misterio
 
 
 

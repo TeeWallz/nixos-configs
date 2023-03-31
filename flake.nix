@@ -27,6 +27,11 @@
           pkgs = nixpkgs.legacyPackages.${system};
         in my.lib.mkHost (import ./hosts/exampleHost { inherit system pkgs; });
 
+        saradomin = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs outputs; };
+          modules = [ ./hosts/saradomin ];
+        };
+
         guthix = let
           system = "x86_64-linux";
           pkgs = nixpkgs.legacyPackages.${system};
