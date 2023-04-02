@@ -6,6 +6,8 @@
     in lib.nixosSystem {
       inherit system;
       modules = [
+        # HERE
+        # BOOT STUFF IMPORTED HERE!!
         ../modules
         (import ../configuration.nix { inherit my inputs pkgs lib; })
         home-manager.nixosModules.home-manager
