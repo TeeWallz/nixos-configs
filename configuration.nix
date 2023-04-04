@@ -17,7 +17,6 @@
 
   imports = [
     "${inputs.nixpkgs}/nixos/modules/installer/scan/not-detected.nix"
-    # "${inputs.nixpkgs}/nixos/modules/profiles/qemu-guest.nix"
     "./common/optional/gnome.nix"
   ];
 
