@@ -1,0 +1,42 @@
+{ config, lib, pkgs, ... }:
+with lib;
+
+let
+  cfg = config.my.per-user.yc.modules.emacs;
+  # buildEmacs is a function that takes a set of emacs packages as input
+  buildEmacs = with pkgs; (emacsPackagesFor emacs).emacsWithPackages;
+in {
+  options.my.per-user.yc.modules.emacs = {
+    enable = mkOption {
+      type = types.bool;
+      default = config.my.per-user.yc.enable;
+    };
+    extraPackages = mkOption {
+      description = "normal software packages that emacs depends to run";
+      type = with types; listOf package;
+      default = with pkgs; [
+        # auctex fails to build, disabled for now
+        # auctex
+        # spell checkers
+        enchant
+        nuspell
+        hunspellDicts.en_US
+        hunspellDicts.de_DE
+        # used with dired mode to open files
+        xdg-utils
+      ];
+    };
+  };
+  config = mkIf (cfg.enable) {
+    services.emacs = {
+      enable = mkDefault false;
+      package = buildEmacs (epkgs:
+        with epkgs;
+        (with melpaPackages; [ nix-mode cdlatex notmuch ])
+        ++ (with elpaPackages; [ use-package auctex pyim pyim-basedict ]));
+      defaultEditor = true;
+      install = true;
+    };
+    environment.systemPackages = cfg.extraPackages;
+  };
+}
