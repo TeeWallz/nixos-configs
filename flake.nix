@@ -41,7 +41,7 @@
   outputs = { self, nixpkgs, home-manager, ... }@inputs:
     let
       inherit (self) outputs;
-      forEachSystem = nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" ];
+      forEachSystem = nixpkgs.lib.genAttrs [ "x86_64-linux" ];
       forEachPkgs = f: forEachSystem (sys: f nixpkgs.legacyPackages.${sys});
     in
     {
