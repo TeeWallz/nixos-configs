@@ -31,5 +31,5 @@
     # size = 8196;
   # }];
 
-  nixpkgs.hostPlatform.system = "aarch64-linux";
+  nixpkgs.hostPlatform.system = "x86_64-linux";
 }

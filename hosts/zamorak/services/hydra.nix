@@ -109,7 +109,7 @@ in
           }
           {
             uri = "localhost";
-            systems = [ "aarch64-linux" "x86_64-linux" "i686-linux" ];
+            systems = [ "x86_64-linux" "i686-linux" ];
             maxJobs = 4;
             speedFactor = 70;
           }
