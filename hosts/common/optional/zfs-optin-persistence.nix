@@ -17,7 +17,7 @@ let
 
   zfsRoot.devNodes = "/dev/disk/by-id/"; # MUST have trailing slash! /dev/disk/by-id/
   # zfsRoot.bootDevices = (import ./machine.nix).bootDevices;
-  zfsRoot.bootDevices = "ata-QEMU_HARDDISK_QM00003";
+  zfsRoot.bootDevices = ["ata-QEMU_HARDDISK_QM00003"];
   zfsRoot.mirroredEfi = "/boot/efis/";
   impermanence = builtins.fetchTarball "https://github.com/nix-community/impermanence/archive/master.tar.gz";
 
