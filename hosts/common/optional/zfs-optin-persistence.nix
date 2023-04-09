@@ -15,7 +15,8 @@ let
     rootPool = "-part3";
   };
 
-  zfsRoot.devNodes = ''''; # MUST have trailing slash! /dev/disk/by-id/
+  zfsRoot.devNodes = "/dev/disk/by-id/"; # MUST have trailing slash! /dev/disk/by-id/
+  zfsRoot.bootDevices = (import ./machine.nix).bootDevices;
   zfsRoot.mirroredEfi = "/boot/efis/";
   impermanence = builtins.fetchTarball "https://github.com/nix-community/impermanence/archive/master.tar.gz";
 
