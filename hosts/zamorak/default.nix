@@ -10,6 +10,7 @@
   networking = {
     hostName = "zamorak";
     useDHCP = true;
+    hostId = "abcd1234";
   };
   system.stateVersion = "22.05";
   # Slows down write operations considerably
