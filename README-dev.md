@@ -1,17 +1,21 @@
 
 
 ```bash
-nix-shell -p gitMinimal nano
 
-git clone https://github.com/TeeWallz/nixos-configs.git /tmp/nix-config/
-cd /tmp/nix-config/
-git checkout go_back
 
 sudo su
 export DISK='/dev/disk/by-id/ata-QEMU_HARDDISK_QM00003'
 export INST_PARTSIZE_SWAP=4
 ./hosts/common/optional/zfs-optin-persistence-disks/zfs-optin-persistence.sh 
 
+
+sudo su
+nix-shell -p git
+git clone https://github.com/TeeWallz/nixos-configs.git /mnt/etc/nixos
+cd /mnt/etc/nixos
+git checkout go_back
+
+mount -t tmpfs none /tmp
 nixos-install --flake .#zamorak
 
 ```
