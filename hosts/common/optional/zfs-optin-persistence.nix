@@ -66,7 +66,7 @@ in {
     #   fsType = "zfs";
     #   options = [ "X-mount.mkdir" ];
     # };
-  } 
+  };
   # // (builtins.listToAttrs (map (diskName: {
   #   name = zfsRoot.mirroredEfi + diskName + zfsRoot.partitionScheme.efiBoot;
   #   value = {
