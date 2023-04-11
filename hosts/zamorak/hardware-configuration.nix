@@ -1,4 +1,4 @@
-{ modulesPath, ... }:
+{ modulesPath, lib... }:
 {
   imports = [
     # ../common/optional/btrfs-optin-persistence.nix
