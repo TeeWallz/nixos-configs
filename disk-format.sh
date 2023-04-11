@@ -1,10 +1,10 @@
-sudo su
+# https://cheat.readthedocs.io/en/latest/nixos/zfs_install.html
 
 export DISK='/dev/disk/by-id/ata-QEMU_HARDDISK_QM00003'
 export INST_PARTSIZE_SWAP=4
 
 sgdisk --zap-all $DISK
-
+zpool labelclear -f rpool
 
 # I DID NOT create partition 2 since I don't need legacy (BIOS) boot
 # Partition 2 will be the boot partition, needed for legacy (BIOS) boot
@@ -35,16 +35,30 @@ sync && udevadm settle && sleep 3                       # Wait for all disk task
 # The 'mountpoint=none' option disables ZFS's automount machinery; we'll use the
 # normal fstab-based mounting machinery in Linux.
 # '-R /mnt' is not a persistent property of the FS, it'll just be used while we're installing.
-zpool create -O mountpoint=none -O atime=off -O compression=lz4 -O xattr=sa -O acltype=posixacl -o ashift=12 -R /mnt rpool $DISK-part1
+
+root_pool="rpool"
+datasets_base="${root_pool}/nixos"
+dataset_local="${datasets_base}/local"
+dataset_root="${dataset_local}/root"
+dataset_nix="${dataset_local}/nix"
+dataset_persist="${datasets_base}/persist"
+
+zpool create -O mountpoint=none -O atime=off -O \
+    compression=lz4 -O xattr=sa -O acltype=posixacl -o ashift=12 \
+    -R /mnt rpool $DISK-part1
 
 # Create the filesystems. This layout is designed so that /home is separate from the root
 # filesystem, as you'll likely want to snapshot it differently for backup purposes. It also
 # makes a "nixos" filesystem underneath the root, to support installing multiple OSes if
 # that's something you choose to do in future.
-zfs create -o mountpoint=none rpool/nixos
-zfs create -o mountpoint=legacy rpool/nixos/root
-zfs create -o mountpoint=legacy rpool/nixos/nix
-zfs create -o mountpoint=legacy rpool/nixos/home
+
+
+zfs create -o mountpoint=none   $datasets_base
+zfs create -o mountpoint=none   $dataset_local
+zfs create -o mountpoint=legacy $dataset_root
+zfs create -o mountpoint=legacy $dataset_nix
+zfs create -o mountpoint=legacy $dataset_persist
+zfs snapshot "${dataset_root}@blank"
 
 # Mount the filesystems manually. The nixos installer will detect these mountpoints
 # and save them to /mnt/nixos/hardware-configuration.nix during the install process.
@@ -53,7 +67,6 @@ mkdir /mnt/home
 mkdir /mnt/nix
 mount -t zfs rpool/nixos/home /mnt/home
 mount -t zfs rpool/nixos/nix /mnt/nix
-
 sync && udevadm settle && sleep 3                       # Wait for all disk tasks to complete
 
 

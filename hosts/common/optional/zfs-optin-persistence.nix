@@ -27,12 +27,12 @@ in {
   boot.initrd.postDeviceCommands = lib.mkBefore wipeScript;
 
   fileSystems = {
-    "/boot" = {
-      device = "bpool/nixos/root";
-      fsType = "zfs";
-      options = [ "X-mount.mkdir" ];
-      neededForBoot = true;
-    };
+    # "/boot" = {
+    #   device = "bpool/nixos/root";
+    #   fsType = "zfs";
+    #   options = [ "X-mount.mkdir" ];
+    #   neededForBoot = true;
+    # };
 
     "/" = {
       device = "rpool/nixos/local/root";
@@ -66,18 +66,19 @@ in {
     #   fsType = "zfs";
     #   options = [ "X-mount.mkdir" ];
     # };
-  } // (builtins.listToAttrs (map (diskName: {
-    name = zfsRoot.mirroredEfi + diskName + zfsRoot.partitionScheme.efiBoot;
-    value = {
-      device = zfsRoot.devNodes + diskName + zfsRoot.partitionScheme.efiBoot;
-      fsType = "vfat";
-      options = [
-        "x-systemd.idle-timeout=1min"
-        "x-systemd.automount"
-        "noauto"
-        "nofail"
-      ];
-    };
-  }) zfsRoot.bootDevices));
+  } 
+  # // (builtins.listToAttrs (map (diskName: {
+  #   name = zfsRoot.mirroredEfi + diskName + zfsRoot.partitionScheme.efiBoot;
+  #   value = {
+  #     device = zfsRoot.devNodes + diskName + zfsRoot.partitionScheme.efiBoot;
+  #     fsType = "vfat";
+  #     options = [
+  #       "x-systemd.idle-timeout=1min"
+  #       "x-systemd.automount"
+  #       "noauto"
+  #       "nofail"
+  #     ];
+  #   };
+  # }) zfsRoot.bootDevices));
 
 }

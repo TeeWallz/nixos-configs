@@ -41,3 +41,4 @@ mkdir /mnt/boot
 mkdir /mnt/nix
 mount -t zfs "${dataset_boot_root}" /mnt/boot
 mount -t zfs "${dataset_nix}" /mnt/nix
+

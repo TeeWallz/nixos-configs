@@ -26,6 +26,13 @@
   #   };
   # };
 
+    fileSystems = {
+      "/mnt/boot" = {
+        device = "/dev/disk/by-uuid/AC99-DD39";
+        fsType = "vfat";
+      }
+    };
+
   # swapDevices = [{
     # device = "/swap/swapfile";
     # size = 8196;
