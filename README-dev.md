@@ -15,7 +15,15 @@ git clone https://github.com/TeeWallz/nixos-configs.git /mnt/etc/nixos
 cd /mnt/etc/nixos
 git checkout go_back
 
-mount -t tmpfs none /tmp
+
 nixos-install --flake .#zamorak
+cd /
+umount -Rl /mnt
+zpool export -a
+
+
+
+watch "df -h | sort -r -k 5 -i"
+
 
 ```

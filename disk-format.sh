@@ -65,8 +65,10 @@ zfs snapshot "${dataset_root}@blank"
 mount -t zfs rpool/nixos/root /mnt
 mkdir /mnt/home
 mkdir /mnt/nix
+mkdir /mnt/persist
 mount -t zfs rpool/nixos/home /mnt/home
 mount -t zfs rpool/nixos/nix /mnt/nix
+mount -t zfs rpool/nixos/persist /mnt/persist
 sync && udevadm settle && sleep 3                       # Wait for all disk tasks to complete
 
 

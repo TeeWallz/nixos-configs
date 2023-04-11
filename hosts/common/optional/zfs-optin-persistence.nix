@@ -7,18 +7,18 @@ let
     echo "Rolling back root ZFS dataset to blank snapshot"
     zfs rollback -r rpool/nixos/local/root@blank
   '';
-  zfsRoot.partitionScheme = {
-    biosBoot = "-part5";
-    efiBoot = "-part1";
-    swap = "-part4";
-    bootPool = "-part2";
-    rootPool = "-part3";
-  };
+  # zfsRoot.partitionScheme = {
+    # biosBoot = "-part5";
+    # efiBoot = "-part1";
+    # swap = "-part4";
+    # bootPool = "-part2";
+    # rootPool = "-part3";
+  # };
 
-  zfsRoot.devNodes = "/dev/disk/by-id/"; # MUST have trailing slash! /dev/disk/by-id/
+  # zfsRoot.devNodes = "/dev/disk/by-id/"; # MUST have trailing slash! /dev/disk/by-id/
   # zfsRoot.bootDevices = (import ./machine.nix).bootDevices;
-  zfsRoot.bootDevices = ["ata-QEMU_HARDDISK_QM00003"];
-  zfsRoot.mirroredEfi = "/boot/efis/";
+  # zfsRoot.bootDevices = ["ata-QEMU_HARDDISK_QM00003"];
+  # zfsRoot.mirroredEfi = "/boot/efis/";
   impermanence = builtins.fetchTarball "https://github.com/nix-community/impermanence/archive/master.tar.gz";
 
 in {

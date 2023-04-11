@@ -28,7 +28,7 @@
   # };
 
   fileSystems = {
-    "/mnt/boot" = {
+    "/boot" = {
       device = "/dev/disk/by-uuid/AC99-DD39";
       fsType = "vfat";
     };
