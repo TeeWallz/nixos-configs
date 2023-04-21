@@ -40,6 +40,7 @@ root_pool="rpool"
 datasets_base="${root_pool}/nixos"
 dataset_local="${datasets_base}/local"
 dataset_root="${dataset_local}/root"
+dataset_home="${dataset_local}/home"
 dataset_nix="${dataset_local}/nix"
 dataset_persist="${datasets_base}/persist"
 
@@ -55,20 +56,23 @@ zpool create -O mountpoint=none -O atime=off -O \
 
 zfs create -o mountpoint=none   $datasets_base
 zfs create -o mountpoint=none   $dataset_local
+
 zfs create -o mountpoint=legacy $dataset_root
 zfs create -o mountpoint=legacy $dataset_nix
+zfs create -o mountpoint=legacy $dataset_home
+
 zfs create -o mountpoint=legacy $dataset_persist
 zfs snapshot "${dataset_root}@blank"
 
 # Mount the filesystems manually. The nixos installer will detect these mountpoints
 # and save them to /mnt/nixos/hardware-configuration.nix during the install process.
-mount -t zfs rpool/nixos/root /mnt
+mount -t zfs $dataset_root /mnt
 mkdir /mnt/home
 mkdir /mnt/nix
 mkdir /mnt/persist
-mount -t zfs rpool/nixos/home /mnt/home
-mount -t zfs rpool/nixos/nix /mnt/nix
-mount -t zfs rpool/nixos/persist /mnt/persist
+mount -t zfs $dataset_home /mnt/home
+mount -t zfs $dataset_nix /mnt/nix
+mount -t zfs $dataset_persist /mnt/persist
 sync && udevadm settle && sleep 3                       # Wait for all disk tasks to complete
 
 
